@@ -7,14 +7,18 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "ecommerce.db")
+chroma_path = os.path.join(BASE_DIR, "chroma_db")
+
 # Initialize DB connection
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///ecommerce.db")
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{db_path}")
 engine = create_engine(DATABASE_URL)
 
 # Initialize Chroma connection
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 # ensure ChromaDB is created before using it
-vectorstore = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
+vectorstore = Chroma(persist_directory=chroma_path, embedding_function=embeddings)
 retriever = vectorstore.as_retriever(search_kwargs={"k": 2})
 
 @tool

@@ -33,11 +33,14 @@ def init_chroma():
         )
     ]
     
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    chroma_path = os.path.join(BASE_DIR, "chroma_db")
+    
     # Create Chroma vector store
     vectorstore = Chroma.from_documents(
         documents=policies, 
         embedding=embeddings,
-        persist_directory="./chroma_db"
+        persist_directory=chroma_path
     )
     print("ChromaDB populated successfully.")
 

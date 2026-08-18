@@ -2,12 +2,16 @@ import streamlit as st
 import os
 from langchain_core.messages import HumanMessage, AIMessage
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "ecommerce.db")
+chroma_path = os.path.join(BASE_DIR, "chroma_db")
+
 # Initialize databases if they don't exist
-if not os.path.exists("ecommerce.db"):
+if not os.path.exists(db_path):
     from init_postgres import init_db
     init_db()
 
-if not os.path.exists("chroma_db"):
+if not os.path.exists(chroma_path):
     from init_chroma import init_chroma
     init_chroma()
 
